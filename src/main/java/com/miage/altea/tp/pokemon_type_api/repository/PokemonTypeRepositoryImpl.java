@@ -6,8 +6,11 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class PokemonTypeRepositoryImpl implements PokemonTypeRepository {
@@ -56,6 +59,26 @@ public class PokemonTypeRepositoryImpl implements PokemonTypeRepository {
     public List<PokemonType> findAllPokemonType() {
 
         return pokemons;
+    }
+
+    @Override
+    public List<PokemonType> findPokemonsTypeByType(List<String> type) {
+
+        if(type.size() < 2) {
+            return this.pokemons.stream()
+                    .filter(pokemon -> pokemon.getTypes().stream().anyMatch(type::contains))
+                    .collect(Collectors.toList());
+        } else {
+            List<PokemonType> res = new ArrayList<>();
+            for(PokemonType pok : pokemons) {
+                Collections.sort(type);
+                Collections.sort(pok.getTypes());
+                if(type.equals(pok.getTypes())) {
+                    res.add(pok);
+                }
+            }
+            return res;
+        }
     }
 
 }

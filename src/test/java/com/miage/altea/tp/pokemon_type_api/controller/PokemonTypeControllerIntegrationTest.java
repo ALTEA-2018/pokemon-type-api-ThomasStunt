@@ -32,13 +32,13 @@ class PokemonTypeControllerIntegrationTest {
 
     @Test
     void getPokemon_withId25_ShouldReturnPikachu() throws Exception {
-        var url = "http://localhost:" + port + "/pokemon-types/25";
+        var url = "http://localhost:" + port + "/pokemon-types/?id=25";
 
-        var pikachu = this.restTemplate.getForObject(url, PokemonType.class);
+        var poks = this.restTemplate.getForObject(url, PokemonType[].class);
 
-        assertNotNull(pikachu);
-        assertEquals(25, pikachu.getId());
-        assertEquals("pikachu", pikachu.getName());
-        assertEquals(4, pikachu.getHeight());
+        assertNotNull(poks);
+        assertEquals(25, poks[0].getId());
+        assertEquals("pikachu", poks[0].getName());
+        assertEquals(4, poks[0].getHeight());
     }
 }

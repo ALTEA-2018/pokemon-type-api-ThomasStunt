@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -33,7 +35,7 @@ class PokemonTypeControllerTest {
         var service = mock(PokemonTypeService.class);
         var controller = new PokemonTypeController(service);
 
-        controller.getAllPokemonTypes();
+        controller.getAllPokemonTypes(null, null, null);
 
         verify(service).getAllPokemonTypes();
     }
@@ -50,20 +52,12 @@ class PokemonTypeControllerTest {
     }
 
     @Test
-    void getPokemonTypeFromId_shouldBeAnnotated() throws NoSuchMethodException {
-        var getPokemonTypeFromId =
-                PokemonTypeController.class.getDeclaredMethod("getPokemonTypeFromId", int.class);
-        var getMapping = getPokemonTypeFromId.getAnnotation(GetMapping.class);
-
-        assertNotNull(getMapping);
-        assertArrayEquals(new String[]{"/{id}"}, getMapping.value());
-    }
-
-    @Test
     void getAllPokemonTypes_shouldBeAnnotated() throws NoSuchMethodException {
         var getAllPokemonTypes =
-                PokemonTypeController.class.getDeclaredMethod("getAllPokemonTypes");
+                PokemonTypeController.class.getDeclaredMethod("getAllPokemonTypes", Integer.class, String.class, List.class);
         var getMapping = getAllPokemonTypes.getAnnotation(GetMapping.class);
+
+        System.out.println(getMapping.value());
 
         assertNotNull(getMapping);
         assertArrayEquals(new String[]{"/"}, getMapping.value());

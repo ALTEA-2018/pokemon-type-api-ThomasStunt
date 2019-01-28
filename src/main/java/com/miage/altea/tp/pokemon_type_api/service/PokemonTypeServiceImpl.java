@@ -16,15 +16,14 @@ public class PokemonTypeServiceImpl implements PokemonTypeService{
     }
 
     @Override
-    public PokemonType getPokemonType(int id) {
-        return pokemonTypeRepository.findPokemonTypeById(id);
-    }
+    public PokemonType getPokemonType(int id) { return pokemonTypeRepository.findPokemonTypeById(id); }
 
     @Override
-    public List<PokemonType> getAllPokemonTypes(){
-        return pokemonTypeRepository.findAllPokemonType();
-    }
+    public List<PokemonType> getAllPokemonTypes(){ return pokemonTypeRepository.findAllPokemonType(); }
 
     @Override
     public PokemonType getPokemonType(String name) { return pokemonTypeRepository.findPokemonTypeByName(name); }
+
+    @Override
+    public List<PokemonType> getPokemonTypeByType(List<String> types) { return pokemonTypeRepository.findPokemonsTypeByType(types); }
 }
