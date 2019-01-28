@@ -2,18 +2,21 @@ package com.miage.altea.tp.pokemon_type_api.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.miage.altea.tp.pokemon_type_api.bo.PokemonType;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+@Repository
 public class PokemonTypeRepositoryImpl implements PokemonTypeRepository {
 
     private List<PokemonType> pokemons;
 
     public PokemonTypeRepositoryImpl() {
         try {
-            var pokemonsStream = this.getClass().getResourceAsStream("/pokemons.json");
+            var pokemonsStream = new ClassPathResource("pokemons.json").getInputStream();
 
             var objectMapper = new ObjectMapper();
             var pokemonsArray = objectMapper.readValue(pokemonsStream, PokemonType[].class);
@@ -54,4 +57,5 @@ public class PokemonTypeRepositoryImpl implements PokemonTypeRepository {
 
         return pokemons;
     }
+
 }
