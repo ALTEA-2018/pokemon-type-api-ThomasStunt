@@ -26,7 +26,7 @@ class PokemonTypeControllerIntegrationTest {
     private PokemonTypeController controller;
 
     @Test
-    void pokemonTypeController_shouldBeInstanciated(){
+    void pokemonTypeController_shouldBeInstantiated(){
         assertNotNull(controller);
     }
 
