@@ -1,20 +1,25 @@
 package com.miage.altea.tp.pokemon_type_api.controller;
 
 import com.miage.altea.tp.pokemon_type_api.bo.PokemonType;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.List;
+import java.util.Locale;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PokemonTypeControllerIntegrationTest {
+public class PokemonTypeControllerIntegrationTest {
 
     @LocalServerPort
     private int port;
@@ -26,19 +31,42 @@ class PokemonTypeControllerIntegrationTest {
     private PokemonTypeController controller;
 
     @Test
-    void pokemonTypeController_shouldBeInstantiated(){
+    public void pokemonTypeController_shouldBeInstanciated(){
         assertNotNull(controller);
     }
 
     @Test
-    void getPokemon_withId25_ShouldReturnPikachu() throws Exception {
-        var url = "http://localhost:" + port + "/pokemon-types/?id=25";
+    public void getPokemon_withId25_ShouldReturnPikachu() throws Exception {
+        var url = "http://localhost:" + port + "/pokemon-types?id=25";
 
-        var poks = this.restTemplate.getForObject(url, PokemonType[].class);
+        var pikachu = this.restTemplate.getForObject(url, PokemonType.class);
 
-        assertNotNull(poks);
-        assertEquals(25, poks[0].getId());
-        assertEquals("pikachu", poks[0].getName());
-        assertEquals(4, poks[0].getHeight());
+        assertNotNull(pikachu);
+        assertEquals(25, pikachu.getId());
+        assertEquals("Pikachu", pikachu.getName());
+        assertEquals(4, pikachu.getHeight());
+    }
+
+    @Test
+    public void getPokemon_withId1_shouldReturnBulbasaur() {
+        var bulbasaur = this.restTemplate.getForObject("http://localhost:" + port + "/pokemon-types?id=1", PokemonType.class);
+        assertNotNull(bulbasaur);
+        assertEquals(1, bulbasaur.getId());
+        assertEquals("Bulbasaur", bulbasaur.getName());
+    }
+
+    @Test
+    public void getPokemon_withId1AndFrenchAcceptLanguage_shouldReturnBulbizarre() {
+        var headers = new HttpHeaders();
+        headers.setAcceptLanguageAsLocales(List.of(Locale.FRENCH));
+
+        var httpRequest = new HttpEntity<>(headers);
+
+        var bulbizarreResponseEntity = this.restTemplate.exchange("http://localhost:" + port + "/pokemon-types?id=1", HttpMethod.GET, httpRequest, PokemonType.class);
+        var bulbizarre = bulbizarreResponseEntity.getBody();
+
+        assertNotNull(bulbizarre);
+        assertEquals(1, bulbizarre.getId());
+        assertEquals("Bulbizarre", bulbizarre.getName());
     }
 }

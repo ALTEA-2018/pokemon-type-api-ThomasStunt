@@ -2,13 +2,13 @@ package com.miage.altea.tp.pokemon_type_api.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.miage.altea.tp.pokemon_type_api.bo.PokemonType;
+import com.miage.altea.tp.pokemon_type_api.repository.PokemonTypeRepository;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +24,8 @@ public class PokemonTypeRepositoryImpl implements PokemonTypeRepository {
             var objectMapper = new ObjectMapper();
             var pokemonsArray = objectMapper.readValue(pokemonsStream, PokemonType[].class);
             this.pokemons = Arrays.asList(pokemonsArray);
+            this.pokemons.sort(Comparator.comparing(PokemonType::getId));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,54 +33,24 @@ public class PokemonTypeRepositoryImpl implements PokemonTypeRepository {
 
     @Override
     public PokemonType findPokemonTypeById(int id) {
-        System.out.println("Loading Pokemon information for Pokemon id " + id);
-
-        for (PokemonType pok : pokemons) {
-            if(pok.getId() == id) {
-                return pok;
-            }
-        }
-
-        return null;
+        return pokemons.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
     }
 
     @Override
     public PokemonType findPokemonTypeByName(String name) {
-        System.out.println("Loading Pokemon information for Pokemon name " + name);
+        return pokemons.stream().filter(x -> x.getName().equals(name)).findFirst().orElse(null);
+    }
 
-        for (PokemonType pok : pokemons) {
-            if(pok.getName().equals(name)) {
-                return pok;
-            }
-        }
-
-        return null;
+    @Override
+    public List<PokemonType> findPokemonsWithListOfTypes(List<String> types) {
+        return this.pokemons
+                .stream()
+                .filter(pokemon -> types.size() > 1 ? pokemon.getTypes().containsAll(types) : pokemon.getTypes().stream().anyMatch(types::contains))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<PokemonType> findAllPokemonType() {
-
         return pokemons;
     }
-
-    @Override
-    public List<PokemonType> findPokemonsTypeByType(List<String> type) {
-
-        if(type.size() < 2) {
-            return this.pokemons.stream()
-                    .filter(pokemon -> pokemon.getTypes().stream().anyMatch(type::contains))
-                    .collect(Collectors.toList());
-        } else {
-            List<PokemonType> res = new ArrayList<>();
-            for(PokemonType pok : pokemons) {
-                Collections.sort(type);
-                Collections.sort(pok.getTypes());
-                if(type.equals(pok.getTypes())) {
-                    res.add(pok);
-                }
-            }
-            return res;
-        }
-    }
-
 }

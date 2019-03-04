@@ -1,14 +1,26 @@
 package com.miage.altea.tp.pokemon_type_api.repository;
 
+import com.miage.altea.tp.pokemon_type_api.repository.PokemonTypeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class PokemonTypeRepositoryImplTest {
-
+public class PokemonTypeRepositoryImplTest {
     private PokemonTypeRepositoryImpl repository = new PokemonTypeRepositoryImpl();
+
+    @Test
+    void applicationContext_shouldLoadPokemonRepository(){
+
+        var context = new AnnotationConfigApplicationContext("com.miage.altea.tp.pokemon_type_api.repository");
+        var repoByName = context.getBean("pokemonTypeRepositoryImpl");
+        var repoByClass = context.getBean(PokemonTypeRepository.class);
+
+        assertEquals(repoByName, repoByClass);
+        assertNotNull(repoByName);
+        assertNotNull(repoByClass);
+    }
 
     @Test
     void findPokemonTypeById_with25_shouldReturnPikachu(){
@@ -47,17 +59,5 @@ class PokemonTypeRepositoryImplTest {
         var pokemons = repository.findAllPokemonType();
         assertNotNull(pokemons);
         assertEquals(151, pokemons.size());
-    }
-
-    @Test
-    void applicationContext_shouldLoadPokemonRepository(){
-
-        var context = new AnnotationConfigApplicationContext("com.miage.altea.tp.pokemon_type_api.repository");
-        var repoByName = context.getBean("pokemonTypeRepositoryImpl");
-        var repoByClass = context.getBean(PokemonTypeRepository.class);
-
-        assertEquals(repoByName, repoByClass);
-        assertNotNull(repoByName);
-        assertNotNull(repoByClass);
     }
 }

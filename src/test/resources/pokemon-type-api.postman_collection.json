@@ -1,0 +1,145 @@
+{
+	"info": {
+		"_postman_id": "32ffb919-0a6e-4881-9e0e-9b2d65db3020",
+		"name": "pokemon-type-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET Pokemon by Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Pokemon by Id (FR)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c9ecd3a4-0e15-41fb-b6dd-3f3eb1c14b6e",
+						"exec": [
+							"pm.test(\"Ivysaur\", function () {",
+							"    var bulbasaur = pm.response.json();",
+							"    pm.expect(bulbasaur.id).to.eq(1);",
+							"    pm.expect(bulbasaur.name).to.eq(\"Herbizarre\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "FR",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/pokemon-types?id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pokemon-types"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Pokemons",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Pokemons (FR)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "188516ca-c789-48a9-a36b-bd60de1edc3c",
+						"exec": [
+							"pm.test(\"all pokemon types\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.length).to.eq(151);",
+							"});",
+							"",
+							"pm.test(\"bulbizarre\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData[0].name).to.eq(\"Bulbizarre\");",
+							"});",
+							"",
+							"pm.test(\"Herbizarre\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData[1].name).to.eq(\"Herbizarre\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "FR",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/pokemon-types/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pokemon-types",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

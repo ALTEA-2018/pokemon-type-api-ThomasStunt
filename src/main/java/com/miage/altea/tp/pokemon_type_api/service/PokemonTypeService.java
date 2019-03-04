@@ -5,8 +5,8 @@ import com.miage.altea.tp.pokemon_type_api.bo.PokemonType;
 import java.util.List;
 
 public interface PokemonTypeService {
-    PokemonType getPokemonType(int id);
+    PokemonType getPokemonTypeById(int id);
+    PokemonType getPokemonTypeByName(String name);
+    List<PokemonType> findPokemonsWithListOfTypes(List<String> types);
     List<PokemonType> getAllPokemonTypes();
-    PokemonType getPokemonType(String name);
-    List<PokemonType> getPokemonTypeByType(List<String> types);
 }
