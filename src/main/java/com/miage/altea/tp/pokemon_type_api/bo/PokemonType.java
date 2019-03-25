@@ -3,7 +3,6 @@ package com.miage.altea.tp.pokemon_type_api.bo;
 import java.util.List;
 
 public class PokemonType {
-
     private int id;
     private int baseExperience;
     private int height;
@@ -75,5 +74,19 @@ public class PokemonType {
 
     public void setTypes(List<String> types) {
         this.types = types;
+    }
+
+    @Override
+    public String toString() {
+        return "PokemonType{" +
+                "id=" + id +
+                ", baseExperience=" + baseExperience +
+                ", height=" + height +
+                ", name='" + name + '\'' +
+                ", sprites=" + sprites +
+                ", stats=" + stats +
+                ", weight=" + weight +
+                ", types=" + types +
+                '}';
     }
 }

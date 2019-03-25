@@ -1,41 +1,40 @@
 package com.miage.altea.tp.pokemon_type_api.bo;
 
 public class Stats {
+    private int speed;
+    private int defense;
+    private int attack;
+    private int hp;
 
-    private Integer speed;
-    private Integer defense;
-    private Integer attack;
-    private Integer hp;
-
-    public Integer getSpeed() {
+    public int getSpeed() {
         return speed;
     }
 
-    public void setSpeed(Integer speed) {
+    public void setSpeed(int speed) {
         this.speed = speed;
     }
 
-    public Integer getDefense() {
+    public int getDefense() {
         return defense;
     }
 
-    public void setDefense(Integer defense) {
+    public void setDefense(int defense) {
         this.defense = defense;
     }
 
-    public Integer getAttack() {
+    public int getAttack() {
         return attack;
     }
 
-    public void setAttack(Integer attack) {
+    public void setAttack(int attack) {
         this.attack = attack;
     }
 
-    public Integer getHp() {
+    public int getHp() {
         return hp;
     }
 
-    public void setHp(Integer hp) {
+    public void setHp(int hp) {
         this.hp = hp;
     }
 }
